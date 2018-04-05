@@ -7,6 +7,29 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
+// servicio - Provider
+import { UsuarioProvider } from '../providers/usuario/usuario';
+import { UbicacionProvider } from '../providers/ubicacion/ubicacion';
+
+// Firebase
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
+// firebase config
+import { firebaseConfig } from '../config/firebase.config';
+
+// localstorage
+import { IonicStorageModule } from '@ionic/storage';
+
+// geolocation
+import { Geolocation } from '@ionic-native/geolocation';
+
+// google maps
+import { AgmCoreModule } from '@agm/core';
+
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -14,7 +37,18 @@ import { HomePage } from '../pages/home/home';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp,{
+            scrollPadding: false,
+            scrollAssist: true,
+            autoFocusAssist: false
+        }),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    IonicStorageModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: ''
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -24,7 +58,10 @@ import { HomePage } from '../pages/home/home';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UsuarioProvider,
+    Geolocation,
+    UbicacionProvider
   ]
 })
 export class AppModule {}
